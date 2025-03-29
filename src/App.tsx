@@ -18,7 +18,7 @@ function App() {
   };
 
   return (
-    <div className="w-[300px] h-[300px] flex flex-col items-center justify-center bg-amber-100">
+    <div className="w-[300px] h-[200px] flex flex-col items-center justify-center bg-amber-100">
       <button
         onClick={handleAutofill}
         disabled={isLoading}
