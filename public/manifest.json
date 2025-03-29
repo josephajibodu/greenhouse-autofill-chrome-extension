@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Greenhouse Autofill",
+  "version": "1.0",
+  "description": "Autofills Greenhouse job applications with your data",
+  "permissions": ["activeTab", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.greenhouse.io/*", "*://*.job-boards.greenhouse.io/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["candidate.json", "resume.pdf"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

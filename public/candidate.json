@@ -1,0 +1,36 @@
+{
+  "candidate": {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "jane.doe@example.com",
+    "phone": "(555) 123-4567",
+    "linkedin": "https://www.linkedin.com/in/josephajibodu/",
+    "website": "https://josephajibodu.com/",
+    "gender": "Male",
+    "city": "Lagos, Nigeria",
+    "education": [
+      {
+        "school": "Massachusetts Institute of Technology",
+        "degree": "Bachelor's Degree",
+        "discipline": "Computer Science",
+        "startDate": "2020"
+      },
+      {
+        "school": "Massachusetts Institute of Technology",
+        "degree": "Bachelor's Degree",
+        "discipline": "Computer Science",
+        "startDate": "2017"
+      }
+    ],
+    "experience": [
+      {
+        "company": "Tech Solutions Inc.",
+        "title": "Software Developer",
+        "startDate": "2020-06",
+        "endDate": "2023-01",
+        "description": "Developed web applications using JavaScript and React."
+      }
+    ],
+    "resumePath": "resume.pdf"
+  }
+}
