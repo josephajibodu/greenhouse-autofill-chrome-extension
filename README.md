@@ -21,7 +21,7 @@ This project is a Chrome extension designed to streamline the application proces
 1. Clone the repository:
 
   ```bash
-  git clone https://github.com/your-username/greenhouse-autofill-extension.git
+  git clone https://github.com/josephajibodu/greenhouse-autofill-chrome-extension
   ```
 
 1. Install dependencies:
