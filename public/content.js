@@ -63,7 +63,7 @@ function autofillForm(profile) {
 
       if (profile.experience && Array.isArray(profile.experience)) {
         fillWorkExperience(profile.experience);
-        await delay(1000);
+        await delay(500);
       }
 
       if (profile.education && Array.isArray(profile.education)) {
@@ -71,8 +71,7 @@ function autofillForm(profile) {
         await delay(1000);
       }
 
-      //   handleResumeUpload();
-      await delay(1000);
+      handleResumeUpload();
 
       return { success: true };
     } catch (error) {
@@ -390,42 +389,37 @@ function fillExperienceEntry(exp, index) {
 }
 
 function handleResumeUpload() {
-  // Get resume data from storage
-  chrome.storage.local.get(["greenhouseResume"], (result) => {
-    if (!result.greenhouseResume) return;
+  // Fetch the resume file from web accessible resources
+  fetch(chrome.runtime.getURL("resume.pdf"))
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch resume file");
+      return response.blob();
+    })
+    .then((blob) => {
+      // Find resume upload input
+      const resumeInput = document.querySelector(
+        '#resume[type="file"][accept*=".pdf"], #resume[type="file"][accept*=".doc"], #resume[type="file"][accept*=".docx"], #resume[type="file"][accept*=".txt"], #resume[type="file"][accept*=".rtf"]'
+      );
 
-    // Find resume upload input
-    const resumeInput = document.querySelector(
-      'input[type="file"][accept*=".pdf"], input[type="file"][accept*=".doc"]'
-    );
+      resumeInput.scrollIntoView({ behavior: "smooth", block: "center" });
 
-    if (resumeInput) {
-      // Convert base64 back to a file
-      const resumeData = result.greenhouseResume;
-      const byteString = atob(resumeData.content.split(",")[1]);
-      const mimeType = resumeData.content
-        .split(",")[0]
-        .split(":")[1]
-        .split(";")[0];
+      if (resumeInput) {
+        const file = new File([blob], "resume.pdf", { type: blob.type });
 
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+        // Create a DataTransfer object to set the file
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        resumeInput.files = dataTransfer.files;
+
+        // Trigger change event
+        triggerEvent(resumeInput, "change");
+      } else {
+        console.log("Resume upload input not found.");
       }
-
-      const blob = new Blob([ab], { type: mimeType });
-      const file = new File([blob], resumeData.name, { type: mimeType });
-
-      // Create a DataTransfer object to set the file
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      resumeInput.files = dataTransfer.files;
-
-      // Trigger change event
-      triggerEvent(resumeInput, "change");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error handling resume upload:", error);
+    });
 }
 
 // Helper function to trigger events
